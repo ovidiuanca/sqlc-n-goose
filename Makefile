@@ -1,4 +1,5 @@
-APP_NAME=sqlc-n-goose
+APP_NAME 	  = sqlc-n-goose
+GOOSE_COMMAND = GOOSE_DRIVER=sqlite3 GOOSE_DBSTRING=./tmp/goose.db goose -dir db/migrations
 
 default: run
 
@@ -18,19 +19,20 @@ test:
 # Migrations
 
 status:
-	GOOSE_DRIVER=sqlite3 GOOSE_DBSTRING=./tmp/goose.db goose -dir db/migrations status
+	$(GOOSE_COMMAND) status
 
 up:
-	GOOSE_DRIVER=sqlite3 GOOSE_DBSTRING=./tmp/goose.db goose -dir db/migrations up
+	$(GOOSE_COMMAND) up
 
 down:
-	GOOSE_DRIVER=sqlite3 GOOSE_DBSTRING=./tmp/goose.db goose -dir db/migrations down
+	$(GOOSE_COMMAND) down
 
+# Usage: make create name=create_users_table
 create:
-	GOOSE_DRIVER=sqlite3 GOOSE_DBSTRING=./tmp/goose.db goose -dir db/migrations create $(name) sql
+	$(GOOSE_COMMAND) create $(name) sql
 
 validate:
-	GOOSE_DRIVER=sqlite3 GOOSE_DBSTRING=./tmp/goose.db goose -dir db/migrations validate
+	$(GOOSE_COMMAND) validate
 
 reset:
-	GOOSE_DRIVER=sqlite3 GOOSE_DBSTRING=./tmp/goose.db goose -dir db/migrations reset
+	$(GOOSE_COMMAND) reset
